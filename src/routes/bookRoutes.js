@@ -36,7 +36,7 @@ const books = [{
 
 
 bookRouter.route('/').get((req, res) => {
-    res.render('books', {
+    res.render('bookListView', {
         //eslint-disable-next-line array-element-newline
         nav: [{
             link: '/books',
@@ -52,8 +52,18 @@ bookRouter.route('/').get((req, res) => {
     });
 });
 
-bookRouter.route('/single').get((req, res) => {
-    res.send('Hello single Book');
+bookRouter.route('/:id').get((req, res) => {
+    const {id} = req.params;
+
+    res.render(
+        'bookView',
+        {
+            nav: [{link: '/books', title: 'Books'},
+                {link: '/authors', title: 'Authors'}],
+            title: 'Library',
+            book: books[id]
+        }
+    );
 });
 
 module.exports = bookRouter;
