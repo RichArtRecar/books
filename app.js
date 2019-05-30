@@ -1,5 +1,4 @@
-/*eslint-disable no-process-env */
-/*eslint-disable strict */
+
 //List of requires
 const express = require('express');
 const chalk = require('chalk');
@@ -15,6 +14,19 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use('/css', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, '/node_modules/bootstrap/dist/js')));
 app.use('/js', express.static(path.join(__dirname, '/node_modules/jquery/dist')));
+app.set('views', './src/views');
+app.set('view engine', 'ejs');
+
+app.get('/', (req, res) => {
+    //eslint-disable-next-line quote-props
+    res.render('index', {
+        //eslint-disable-next-line array-element-newline
+        nav: [{link: '/books', title: 'Books'},
+            {link: '/authors', title: 'Authors'}
+        ],
+        title: 'My Blog'
+    });
+});
 
 app.get('/', (_req, res) => {
     res.sendFile(path.join(__dirname, 'views/index.html'));
