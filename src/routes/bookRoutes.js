@@ -39,31 +39,35 @@ function router(nav) {
     bookRouter.route('/').get((req, res) => {
         (async function query() {
             const request = new sql.Request();
+            const { recordset } = await request.query('select * from books');
 
-            const result = await request.query('select * from books');
-
-            debug(result);
             res.render('bookListView', {
                 //eslint-disable-next-line array-element-newline
                 nav,
                 title: 'My Blog',
-                books: result.recordset
+                books: recordset
             });
         }());
     });
 
     bookRouter.route('/:id').get((req, res) => {
-        const {
-            id
-        } = req.params;
+        (async function query(){
+            const {
+                id
+            } = req.params;
+            const request = new sql.Request();
+            const { recordset } = await request
+            .input('id', sql.Int, id)
+            .query('select * from books where id = @id');
+            res.render(
+                'bookView', {
+                    nav,
+                    title: 'Library',
+                    book: recordset[0]
+                }
+            );
+        }());
 
-        res.render(
-            'bookView', {
-                nav,
-                title: 'Library',
-                book: books[id]
-            }
-        );
     });
 
     return bookRouter;
