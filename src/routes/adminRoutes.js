@@ -1,10 +1,11 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const {
+  MongoClient
+} = require('mongodb');
 const debug = require('debug')('app:adminRoutes');
 
 const adminRouter = express.Router();
-const books = [
-  {
+const books = [{
     title: 'War and Peace',
     genre: 'Historical Fiction',
     author: 'Lev Nikolayevich Tolstoy',
@@ -53,7 +54,8 @@ const books = [
     genre: 'Biography',
     author: 'Lev Nikolayevich Tolstoy',
     read: false
-  }];
+  }
+];
 
 function router(nav) {
   adminRouter.route('/')
